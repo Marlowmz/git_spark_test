@@ -1,0 +1,20 @@
+using namespace std;
+
+const float size_x = 4.0;
+const float size_y = 4.0;
+
+vec4 main(Texture2d spritesheet_0, Texture2d spritesheet_1, Texture2d spritesheet_2, Texture2d spritesheet_3, float sheet, float row, float column) {
+  vec2 uv = fragment(std::getVertexTexCoord());
+
+  float dx = 1.0 / size_x;
+  float dy = 1.0 / size_y;
+  row = size_y - row - 1.0;
+  vec2 sheet_uv = vec2(dx * uv.x + column * dx, 1.0 - dy - row * dy + dy * uv.y);
+
+  vec4 color;
+  if(sheet == 0.0) color = spritesheet_0.sample(sheet_uv);
+  else if(sheet == 1.0) color = spritesheet_1.sample(sheet_uv);
+  else if(sheet == 2.0) color = spritesheet_2.sample(sheet_uv);
+  else if(sheet == 3.0) color = spritesheet_3.sample(sheet_uv);
+  return color;
+} 

@@ -1,0 +1,23 @@
+precision highp float;
+
+using namespace std;
+
+vec4 main(Texture2d snowTex, float snowProgress, float tileY, float tileX, float offsetX, float angleX, float angleY, float introProgress) {
+  vec2 uv = fragment(std::getVertexTexCoord());
+  
+
+  vec3 viewDir = normalize(vec3(vec2(uv.x-angleX, uv.y+angleY),0.5));
+  vec2 planarUV = viewDir.xz/abs(viewDir.y);
+  float depth = planarUV.y;
+  planarUV += vec2(0.0, getTime()*-3.);
+
+  vec4 snowColor = snowTex.sample(vec2((planarUV.x+offsetX)*tileX, planarUV.y*tileY));
+  
+
+  float fadeAlpha = 3.-(uv.y+introProgress)*3.;
+  fadeAlpha *= snowTex.sample(uv*3.).g*5.;
+
+  snowColor = mix(snowColor, vec4(snowColor.rgb,0), clamp(fadeAlpha,0.,1.));
+
+  return snowColor;
+}

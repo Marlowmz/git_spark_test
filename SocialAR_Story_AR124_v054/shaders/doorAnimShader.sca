@@ -1,0 +1,32 @@
+using namespace std;
+
+const float size_x = 4.0;
+const float size_y = 4.0;
+
+vec4 main(Texture2d door_0_diffuse, Texture2d door_0_alpha, Texture2d door_1_diffuse, Texture2d door_1_alpha, 
+  Texture2d door_2_diffuse, Texture2d door_2_alpha, Texture2d door_3_diffuse, Texture2d door_3_alpha, float index) {
+
+  vec2 uv = fragment(std::getVertexTexCoord());
+  
+  
+  vec4 color;
+  if(index == 0.0){
+    color = door_0_diffuse.sample(uv);
+    color.a = door_0_alpha.sample(uv).r;
+  } 
+  else if(index == 1.0){
+    color = door_1_diffuse.sample(uv);
+    color.a = door_1_alpha.sample(uv).r;
+  } 
+  else if(index == 2.0){
+    color = door_2_diffuse.sample(uv);
+    color.a = door_2_alpha.sample(uv).r;
+  } 
+  else if(index == 3.0){
+    color = door_3_diffuse.sample(uv);
+    color.a = door_3_alpha.sample(uv).r;
+  } 
+
+  
+  return color;
+} 

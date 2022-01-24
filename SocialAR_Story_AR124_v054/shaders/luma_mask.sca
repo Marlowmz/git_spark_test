@@ -1,0 +1,11 @@
+using namespace std;
+
+// Entry point of the shader code asset
+// @param[default=1.0,min=0.0,max=1.0] fade
+// @return color
+vec4 main(Texture2d Diffuse, Texture2d Alpha, float fade) {
+  vec2 uv = fragment(std::getVertexTexCoord());
+  vec4 diffuse = Diffuse.sample(uv);
+  diffuse.a = Alpha.sample(uv).r*fade;
+  return diffuse;
+}

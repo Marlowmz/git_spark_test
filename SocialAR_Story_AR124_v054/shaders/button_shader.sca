@@ -1,0 +1,23 @@
+using namespace std;
+vec4 main(
+  Texture2d neutral,
+  Texture2d hover,
+  Texture2d confirm,
+  Texture2d Alpha,
+  float hover_amount,
+  float confirm_amount
+  ) {
+  vec2 uv = fragment(std::getVertexTexCoord());
+  vec4 neutral_color = neutral.sample(uv);
+  vec4 hover_color = hover.sample(uv);
+  vec4 confirm_color = confirm.sample(uv);
+
+
+  vec4 color =neutral_color;
+
+  float hovermix = hover_amount*(1.0-confirm_amount);
+  color = mix(color, hover_color,hovermix);
+  color = mix(color, confirm_color,confirm_amount);
+  color.a *= Alpha.sample(uv).r;
+  return color;
+}
